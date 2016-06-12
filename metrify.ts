@@ -34,14 +34,15 @@ const VALUE = `(\\d*(?:\\.\\d+)?)?`;
 const UNIT_RE = '(' + Object.keys(UNITS).join('|') + ')';
 const RE = new RegExp(`^\\s*${PREFIX}${VALUE}\\s+${UNIT_RE}\\s*$`);
 
-const SELECTORS = `.item-size,
-    .icDropdownItem span,
-    .icQtyDropdown button strong`;
+const SELECTORS = `.item-size:not(.metrified),
+    .icDropdownItem span:not(.metrified),
+    .icQtyDropdown button strong:not(.metrified)`;
 
 function metrifyAll() {
   let nodes = document.querySelectorAll(SELECTORS);
   for (let i = 0; i < nodes.length; i++) {
     let node = nodes[i];
+    node.classList.add('metrified');  // No need to check again if it doesn't match.
     let text = node.textContent;
     let m = text.match(RE);
     if (!m) continue;
