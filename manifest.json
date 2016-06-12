@@ -5,6 +5,10 @@
   "description": "Converts customary units on Instacart into metric",
   "version": "1.0.1",
   "homepage_url": "https://github.com/mprobst/instametric",
+  "icons": {
+    "48": "res/icon48.png",
+    "128": "res/icon128.png"
+  },
 
   "permissions": [
     "https://www.instacart.com/"
