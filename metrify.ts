@@ -9,7 +9,17 @@ function metrify(text: string, unit: string, factor: number) {
     value /= 1000;
     unit = 'k' + unit;
   }
-  return `${value.toFixed(1)} ${unit}`;
+  if (value < 10) {
+    return `${value.toFixed(1)} ${unit}`;
+  } else if (value > 100) {
+    // Round to max two digits + 0 to make the number a bit more human readable.
+    value = Math.round(value / 10) * 10;
+  } else if (value > 10) {
+    // Round for 2 digits before the decimal point.
+    value = Math.round(value);
+  }
+  // Value should not have a fraction, but toFixed(0) avoids floating point math issues.
+  return `${value.toFixed(0)} ${unit}`;
 }
 
 interface Unit {
