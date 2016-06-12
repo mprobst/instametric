@@ -5,4 +5,4 @@ set -x
 
 tsc
 rm instametric.zip || true
-zip instametric.zip manifest.json metrify.js
+zip instametric.zip manifest.json metrify.js res/*.png
