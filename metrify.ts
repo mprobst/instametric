@@ -29,14 +29,26 @@ const UNITS: {[k: string]: Unit} = {
   'gl': {unit: 'l', factor: 3.78541},
 };
 
+const PREFIX = `(~|\\d+ x\\s+)?`;
+const VALUE = `(\\d*(?:\\.\\d+)?)?`;
+const UNIT_RE = '(' + Object.keys(UNITS).join('|') + ')';
+const RE = new RegExp(`^\\s*${PREFIX}${VALUE}\\s+${UNIT_RE}\\s*$`);
+
+const SELECTORS = `.item-size,
+    .icDropdownItem span,
+    .icQtyDropdown button strong`;
+
 function metrifyAll() {
-  for (let node of document.querySelectorAll('.item-size, .icDropdownItem span, .icQtyDropdown button strong')) {
+  let nodes = document.querySelectorAll(SELECTORS);
+  for (let i = 0; i < nodes.length; i++) {
+    let node = nodes[i];
     let text = node.textContent;
-    let m = text.match(/^\s*~?\s*(\d*(?:\.\d+)?)?\s*([\w ]+)\s*$/);
+    let m = text.match(RE);
     if (!m) continue;
-    let u = UNITS[m[2]];
+    let [, prefix, value, unit] = m;
+    let u = UNITS[unit];
     if (!u) continue;
-    node.textContent = metrify(m[1] || '1', u.unit, u.factor);
+    node.textContent = (prefix || '') + metrify(value || '1', u.unit, u.factor);
     node.setAttribute('title', text);
   }
 }
