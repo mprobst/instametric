@@ -42,11 +42,17 @@ const UNITS: {[k: string]: Unit} = {
 const PREFIX = `(~|\\d+ x\\s+)?`;
 const VALUE = `(\\d*(?:\\.\\d+)?)?`;
 const UNIT_RE = '(' + Object.keys(UNITS).join('|') + ')';
-const RE = new RegExp(`^\\s*${PREFIX}${VALUE}\\s+${UNIT_RE}\\s*$`);
+const RE = new RegExp(`^\\s*${PREFIX}${VALUE}\\s*${UNIT_RE}\\s*$`);
 
-const SELECTORS = `.item-size:not(.metrified),
+const SELECTORS = `
+    .item-size:not(.metrified),
+    .item-quantity-amount:not(.metrified),
+    .item-quantity-small:not(.metrified),
+    .item-size-info:not(.metrified),
+
     .icDropdownItem span:not(.metrified),
-    .icQtyDropdown button strong:not(.metrified)`;
+    .icQtyDropdown button strong:not(.metrified)
+    `;
 
 function metrifyAll() {
   let nodes = document.querySelectorAll(SELECTORS);
