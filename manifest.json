@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "InstaMetric",
+  "description": "Converts customary units on Instacart into metric",
+  "version": "1.0",
+
+  // "browser_action": {
+  //   "default_icon": "icon.png",
+  //   "default_popup": "popup.html"
+  // },
+  "permissions": [
+    "https://www.instacart.com/"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.instacart.com/*"],
+      "js": ["metrify.js"]
+    }
+  ]
+}
