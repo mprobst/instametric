@@ -53,4 +53,4 @@ function metrifyAll() {
   }
 }
 
-setInterval(metrifyAll, 1);
+setInterval(metrifyAll, 1000);
