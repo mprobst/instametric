@@ -1,7 +1,7 @@
 #!/bin/sh
 
-set -x
 set -e
+set -x
 
 tsc
 rm instametric.zip || true
