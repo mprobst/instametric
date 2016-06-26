@@ -39,7 +39,7 @@ const UNITS: {[k: string]: Unit} = {
   'gl': {unit: 'l', factor: 3.78541},
 };
 
-const PREFIX = `(~|\\d+ x\\s+)?`;
+const PREFIX = `(~\\s+|\\d+ x\\s+)?`;
 const VALUE = `(\\d*(?:\\.\\d+)?)?`;
 const UNIT_RE = '(' + Object.keys(UNITS).join('|') + ')';
 const RE = new RegExp(`^\\s*${PREFIX}${VALUE}\\s*${UNIT_RE}\\s*$`);
@@ -54,20 +54,27 @@ const SELECTORS = `
     .icQtyDropdown button strong:not(.metrified)
     `;
 
+export function metrifyText(text: string): string|undefined {
+  let m = text.match(RE);
+  if (!m) return;
+  let [, prefix, value, unit] = m;
+  let u = UNITS[unit];
+  if (!u) return;
+  return (prefix || '') + metrify(value || '1', u.unit, u.factor);
+}
+
 function metrifyAll() {
   let nodes = document.querySelectorAll(SELECTORS);
   for (let i = 0; i < nodes.length; i++) {
     let node = nodes[i];
     node.classList.add('metrified');  // No need to check again if it doesn't match.
-    let text = node.textContent;
-    let m = text.match(RE);
-    if (!m) continue;
-    let [, prefix, value, unit] = m;
-    let u = UNITS[unit];
-    if (!u) continue;
-    node.textContent = (prefix || '') + metrify(value || '1', u.unit, u.factor);
-    node.setAttribute('title', text);
+    let nodeText = node.textContent;
+    if (!nodeText) continue;
+    let metrified = metrifyText(nodeText);
+    if (!metrified) continue;
+    node.textContent = metrified;
+    node.setAttribute('title', nodeText);
   }
 }
 
-setInterval(metrifyAll, 1000);
+if (typeof document !== 'undefined') setInterval(metrifyAll, 1000);

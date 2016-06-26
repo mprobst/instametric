@@ -7,7 +7,8 @@
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules"
