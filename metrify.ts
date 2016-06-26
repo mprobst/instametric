@@ -54,6 +54,9 @@ const SELECTORS = `
     .icQtyDropdown button strong:not(.metrified)
     `;
 
+// Shim export handling for running in Chrome.
+if (typeof this.exports === 'undefined') this.exports = {};
+
 export function metrifyText(text: string): string|undefined {
   let m = text.match(RE);
   if (!m) return;
@@ -77,4 +80,5 @@ function metrifyAll() {
   }
 }
 
+// Shim document/main execution for running in Node.
 if (typeof document !== 'undefined') setInterval(metrifyAll, 1000);
